@@ -12,7 +12,7 @@ import cv2 as cv
 class Camera:
 
     def __init__(self):
-        self.camera = cv.VideoCapture(0)
+        self.camera = cv.VideoCapture(2)
         if not self.camera.isOpened():
             raise ValueError("Unable to open camera!")
         # Setzen Sie die Auflösung auf 1920x1080

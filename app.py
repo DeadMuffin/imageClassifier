@@ -17,8 +17,8 @@ def count_files_in_directory(directory_path):
         
 
 activateGui = True
-threshold1 = 100/2
-threshold2 = 100
+threshold1 = 255/3
+threshold2 = 255
 kantenerkennung = True
 threshholdTest = False
 thresholdIterations = 20
@@ -51,12 +51,13 @@ class App:
     
     def init_gui(self):
 
-        self.canvas = tk.Canvas(self.window, width=self.camera.width, height=self.camera.height)
-        self.canvas.pack()
+        if not kantenerkennung:
+            self.canvas = tk.Canvas(self.window, width=self.camera.width//2, height=self.camera.height//2)
+            self.canvas.pack()
 
-        #if kantenerkennung:
-        #    self.canvas_edges = tk.Canvas(self.window, width=self.camera.width, height=self.camera.height)
-        #    self.canvas_edges.pack()
+        if kantenerkennung:
+           self.canvas = tk.Canvas(self.window, width=self.camera.width//2, height=self.camera.height//2)
+           self.canvas.pack()
 
         self.btn_toggleauto = tk.Button(self.window, text="Auto Prediction", width=50, command=self.auto_predict_toggle)
         self.btn_toggleauto.pack(anchor=tk.CENTER, expand=True)
@@ -131,6 +132,17 @@ class App:
             frame = cv.cvtColor(frame, cv.COLOR_BGR2RGB)
             image=PIL.Image.fromarray(frame)
             #image.thumbnail((500, 282), resample=Image.LANCZOS)
+            if kantenerkennung:
+
+
+                #image.thumbnail((500, 282), resample=Image.LANCZOS)
+                image.save("frameedges.jpg")
+                image = cv.imread('frameedges.jpg')[:, :, 0]
+
+                #gray = cv.cvtColor(frame, cv.COLOR_RGB2GRAY)
+                edges = cv.Canny(image, threshold1=threshold1, threshold2=threshold2)
+                image = PIL.Image.fromarray(edges, mode="L")  # Konvertiere zu Graustufenbild
+
             self.photo = PIL.ImageTk.PhotoImage(image)
             self.canvas.create_image(0, 0, image=self.photo, anchor=tk.NW)
 
