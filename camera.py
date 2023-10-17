@@ -12,7 +12,7 @@ import cv2 as cv
 class Camera:
 
     def __init__(self):
-        self.camera = cv.VideoCapture(2)
+        self.camera = cv.VideoCapture(0) # Wenn Bild schwarz einfach mal den Integer erhöhen. Steht für welche Kamera als Input genutzt wird.
         if not self.camera.isOpened():
             raise ValueError("Unable to open camera!")
         # Setzen Sie die Auflösung auf 1920x1080
@@ -30,7 +30,6 @@ class Camera:
             ret, frame = self.camera.read()
 
             if ret:
-                #cv.imwrite("original_frame.jpg", frame)
                 return (ret,  frame)
             else:
                 return (ret, None)
