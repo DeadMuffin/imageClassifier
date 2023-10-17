@@ -111,9 +111,6 @@ class App:
         self.class_label3 = tk.Label(self.window, text="Results Here!", font=("Arial", 15))
         self.class_label3.pack(fill=tk.X)
 
-
-
-
     def auto_predict_toggle(self):
         self.auto_predict = not self.auto_predict
 
